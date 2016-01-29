@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <script src="http://cdn.bootcss.com/angular.js/1.4.3/angular.min.js"></script>
+    <script src="http://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="http://cdn.bootcss.com/angular-ui-bootstrap/0.13.2/ui-bootstrap.min.js"></script>
+    <script src="http://cdn.bootcss.com/angular-ui-bootstrap/0.13.2/ui-bootstrap-tpls.min.js"></script>
+</head>
+
+<body ng-app="BingoApp" class="container" ng-controller="BingoCtrl">
+<div class="col-md-2">
+    <div class="alert alert-success" role="alert" ng-model="total">B
+    </div>
+    <ul ng-repeat="b in bs" class="list-group">
+        <li ng-bind="b" class="list-group-item"></li>
+    </ul>
+</div>
+<div class="col-md-2">
+    <div class="alert alert-success" role="alert" ng-model="total">I
+    </div>
+    <ul ng-repeat="i in is" class="list-group">
+        <li ng-bind="i" class="list-group-item"></li>
+    </ul>
+</div>
+<div class="col-md-2">
+    <div class="alert alert-success" role="alert" ng-model="total">N
+    </div>
+    <ul ng-repeat="n in ns" class="list-group">
+        <li ng-bind="n" class="list-group-item"></li>
+    </ul>
+</div>
+<div class="col-md-2">
+    <div class="alert alert-success" role="alert" ng-model="total">G
+    </div>
+    <ul ng-repeat="g in gs" class="list-group">
+        <li ng-bind="g" class="list-group-item"></li>
+    </ul>
+</div>
+<div class="col-md-2">
+    <div class="alert alert-success" role="alert" ng-model="total">O
+    </div>
+    <ul ng-repeat="o in os" class="list-group">
+        <li ng-bind="o" class="list-group-item"></li>
+    </ul>
+</div>
+<div class="col-md-2">
+    <button class="btn btn-primary btn-block" type="button" ng-click="generate()">Generate</button>
+    <button class="btn btn-warning btn-block" type="button" ng-click="clear()">Clear</button><br/>
+    <div class="alert alert-info" role="alert">Latest Number: <span ng-bind="num"></span></div>
+</div>
+</body>
+</html>
+<script>
+    var app = angular.module("BingoApp", []);
+    app.controller("BingoCtrl", function ($scope) {
+        $scope.bs = [];
+        $scope.is = [];
+        $scope.ns = [];
+        $scope.gs = [];
+        $scope.os = [];
+
+        $scope.num = 0;
+        $scope.nums = [];
+
+        $scope.initial = function () {
+            while (true) {
+
+                var num = Math.ceil(Math.random() * 75);
+                var has = false;
+                for (var i = 0; i < $scope.nums.length; i++) {
+                    if ($scope.nums[i] == num) {
+                        has = true;
+                    }
+                }
+                if (!has) {
+                    $scope.nums.push(num);
+                }
+                if ($scope.nums.length == 75) {
+                    break;
+                }
+            }
+        }
+        $scope.initial();
+        $scope.generate = function () {
+            $scope.num = $scope.nums.pop();
+            if (1 <= $scope.num && $scope.num <= 15) {
+                $scope.bs.push($scope.num);
+            }
+            if (16 <= $scope.num && $scope.num <= 30) {
+                $scope.is.push($scope.num);
+            }
+            if (31 <= $scope.num && $scope.num <= 45) {
+                $scope.ns.push($scope.num);
+            }
+            if (46 <= $scope.num && $scope.num <= 60) {
+                $scope.gs.push($scope.num);
+            }
+            if (61 <= $scope.num && $scope.num <= 75) {
+                $scope.os.push($scope.num);
+            }
+        }
+
+        $scope.clear = function () {
+            $scope.bs = [];
+            $scope.is = [];
+            $scope.ns = [];
+            $scope.gs = [];
+            $scope.os = [];
+            $scope.initial();
+        }
+    });
+</script>
